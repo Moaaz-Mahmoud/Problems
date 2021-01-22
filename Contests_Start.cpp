@@ -47,7 +47,7 @@ ll gcd(ll a, ll b) {
 	return gcd(b, a % b);
 }
 ll lcm(ll a, ll b) {
-	return (min(a, b) / gcd(a, b)) * max(a, b);
+	return (a / gcd(a, b)) * b;
 }
 bool isPrime(ll n) {
 	if (n <= 1) return false;
@@ -56,15 +56,15 @@ bool isPrime(ll n) {
 	}
 	return true;
 }
-inline vi sieve(int n) {
+inline vector<int> sieve(int n) {
 	vector<bool> isPrime(n + 1, true);
-	for (int i = 2; i * i <= n; i++) {
+	for (int i = 2; i * i <= n; i++) {	
 		if (isPrime[i])
 			for (int j = 2 * i; j <= n; j += i) {
 				isPrime[j] = false;
 			}
 	}
-	vi primes;
+	vector<int> primes;
 	for (int i = 2; i <= n; i++)
 		if (isPrime[i]) primes.push_back(i);
 	return primes;
@@ -80,15 +80,27 @@ inline vector<bool> sieveQuery(int n) {
 	return isPrime;
 }
 inline vector<ll> primeFactors(ll n) {
-	vector<ll> factors;
+	vector<ll> F;
 	for (ll i = 2LL; i * i <= n; i++) {
 		while (n % i == 0) {
-			factors.push_back(i);
+			F.push_back(i);
 			n /= i;
 		}
 	}
-	if (n > 1) factors.push_back(n);
-	return factors;
+	if (n > 1) F.push_back(n);
+	return F;
+}
+inline vector<ll> unsorted_factors(ll n) {
+	vector<ll> F;
+	ll i = 1;
+	for (; i * i < n; i++) {
+		if (n % i == 0) {
+			F.push_back(i);
+			F.push_back(n / i);
+		}
+	}
+	if (i * i == n) F.push_back(i);
+	return F;
 }
 
 void shift_right(vi& A, int x) {
@@ -131,6 +143,7 @@ bool isPalindrome(string& s) {
 	return 1;
 }
 
+#define MAXNODES 100009
 vi bfs(const vector<vi>& G, int start) {
 	int distance = 0, maxDist = 0;
 	queue<int> q;
@@ -154,41 +167,87 @@ vi bfs(const vector<vi>& G, int start) {
 	}
 	return reqDist;
 }
+class DSU
+{
+public:
+	int parent[MAXNODES];
+	int GroupSize[MAXNODES];
+
+	DSU()
+	{
+		for (int i = 0; i < MAXNODES; i++)
+		{
+			parent[i] = i;
+			GroupSize[i] = 1;
+		}
+	}
+
+	int FindLeader(int i)
+	{
+		if (parent[i] == i)  return i;
+
+		return parent[i] = FindLeader(parent[i]);
+	}
+
+	bool SameGroup(int x, int y)
+	{
+		int leader1 = FindLeader(x);
+		int leader2 = FindLeader(y);
+
+		return leader1 == leader2;
+	}
 
 
-/*
-int t; cin >> t;
-while(t--) {
-	int n; cin >> n;
-	vi A(n); loop(n) cin >> A[i];
+	void MergeGroups(int x, int y)
+	{
+		int leader1 = FindLeader(x);
+		int leader2 = FindLeader(y);
 
-}
-*/
+		if (leader1 == leader2)  return;
+
+		if (GroupSize[leader1] > GroupSize[leader2])
+		{
+			parent[leader2] = leader1;
+			GroupSize[leader1] += GroupSize[leader2];
+		}
+		else
+		{
+			parent[leader1] = leader2;
+			GroupSize[leader2] += GroupSize[leader1];
+		}
+	}
+
+	int GetSize(int x)
+	{
+		int leader = FindLeader(x);
+		return GroupSize[leader];
+	}
+};
 
 #define EXTERNAL_OUT 0
 #if EXTERNAL_OUT 
 ofstream fout("output.txt");
 #define cout fout
 #endif
+//gap between 2 primes is less than 300 for n <= 10^9
+//cout<<fixed<<setprecision(n)<<number - for n digits after decimal
+//for all numbers less than 10^9 there are at most 10 distinct prime factors
+
 
 
 int main()
 {
 	IOS;
-
 #if 1
-	int _t_ = 1; cin >> _t_;
-	while (_t_--) {
-
- 	}
-	
-#endif
-
-#if 0
 	int _t_ = 1; //cin >> _t_;
 	while (_t_--) {
 
 	}
+
+
+#endif
+
+#if 0
 
 #endif
 
