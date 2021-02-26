@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 #include <cmath>
 #include <vector>
@@ -14,16 +15,16 @@
 #include <algorithm>
 #include <fstream>
 #include <iomanip>
-#include <string.h>
 #include <cstring>
 using namespace std;
+
 #define _CRT_SECURE_NO_WARNINGS
-#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define FAST ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 #define NEWLINE cout << '\n'
 #define loop(n) for(int i = 0; i < n; i++)
+#define forn(itr, stt, end) for(int itr = stt; itr < end; i++)
 #define all(a) a.begin(), a.end()
-#define MULTI_TEST int t; cin >> t; while (t--) 
-#define INF (1000000000) // One billion
+#define YN cout << (can ? "Yes" : "No") << '\n'
 const double PI = acos(-1);
 
 #define EXTERNAL_FILES 0
@@ -39,8 +40,7 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> ii;
 typedef vector<ii> vii;
-typedef set<int> si;
-typedef map<vi, int> mvi;
+typedef priority_queue<int, vi, greater<int>> minheap;
 
 
 ll gcd(ll a, ll b) {
@@ -153,7 +153,7 @@ bool isPalindrome(string& s) {
 	return 1;
 }
 
-#define MAXNODES 200009
+#define MAXNODES 100009
 vi bfs(const vector<vi>& G, int start) {
 	int distance = 0, maxDist = 0;
 	queue<int> q;
@@ -173,66 +173,64 @@ vi bfs(const vector<vi>& G, int start) {
 	return dist;
 	//return maxDist;
 }
-class DSU
-{
+class DSU{
 private:
 	int parent[MAXNODES];
-	int GroupSize[MAXNODES];
+	int groupSize[MAXNODES];
+	int edgesCount[MAXNODES];
 public:
-	DSU()
-	{
-		for (int i = 0; i < MAXNODES; i++)
-		{
+	DSU(){
+		for (int i = 0; i < MAXNODES; i++){
 			parent[i] = i;
-			GroupSize[i] = 1;
+			groupSize[i] = 1;
+			edgesCount[i] = 0;
 		}
 	}
 
-	int findLeader(int i)
-	{
+	int findLeader(int i){
 		if (parent[i] == i)  return i;
 
 		return parent[i] = findLeader(parent[i]);
 	}
 
-	bool sameGroup(int x, int y)
-	{
+	bool sameGroup(int x, int y){
 		int leader1 = findLeader(x);
 		int leader2 = findLeader(y);
 
 		return leader1 == leader2;
 	}
 
-
-	void merge(int x, int y)
-	{
+	void merge(int x, int y){
 		int leader1 = findLeader(x);
 		int leader2 = findLeader(y);
 
-		if (leader1 == leader2)  return;
-
-		if (GroupSize[leader1] > GroupSize[leader2])
-		{
-			parent[leader2] = leader1;
-			GroupSize[leader1] += GroupSize[leader2];
+		if (leader1 == leader2){
+			edgesCount[leader1]++;
+			return;
 		}
-		else
-		{
+
+		if (groupSize[leader1] > groupSize[leader2]){
+			parent[leader2] = leader1;
+			groupSize[leader1] += groupSize[leader2];
+			edgesCount[leader1] += edgesCount[leader2] + 1;
+		}
+		else{
 			parent[leader1] = leader2;
-			GroupSize[leader2] += GroupSize[leader1];
+			groupSize[leader2] += groupSize[leader1];
+			edgesCount[leader2] += edgesCount[leader1] + 1;
 		}
 	}
 
-	int getSize(int x)
-	{
+	int getSize(int x){
 		int leader = findLeader(x);
-		return GroupSize[leader];
+		return groupSize[leader];
+	}
+
+	int getEdgesCount(int x){
+		int leader = findLeader(x);
+		return edgesCount[leader];
 	}
 };
-
-//gap between 2 primes is less than 300 for n <= 10^9
-//cout<<fixed<<setprecision(n)<<number - for n digits after decimal
-//for all numbers less than 10^9 there are at most 10 distinct prime factors
 
 #define EXTERNAL_OUT 0
 #if EXTERNAL_OUT 
@@ -241,26 +239,22 @@ ofstream fout("output.txt");
 #endif
 
 
+#define MAX 100009
+void init(){
+	
+}
+void solve(){
+	
+}
 
 int main()
 {
-	IOS;
+	FAST;
+	init();
+	int _t_ = 1; //cin >> _t_;
+	while (_t_--) solve();
 
-#if 1
-
-	int _t_ = 1; cin >> _t_;
-	while (_t_--) {
-		
-	}
-
-#endif
-
-#if 0
-
-#endif
-	
-
-#if EXTERNAL_FILES || EXTERNAL_OUT
+#if EXTERNAL_OUT || EXTERNAL_FILES
 	fout.close();
 	system("output.txt");
 #endif
