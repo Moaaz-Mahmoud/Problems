@@ -16,7 +16,10 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
+#include <conio.h>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 #define _CRT_SECURE_NO_WARNINGS
 #define FAST ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
@@ -29,11 +32,13 @@ const double PI = acos(-1);
 
 #define EXTERNAL_FILES 0
 #if EXTERNAL_FILES
-ifstream fin("input.txt");
-ofstream fout("output.txt");
+ifstream fin("hello.in");
+//ofstream fout("output.txt");
 #define cin fin
-#define cout fout
+//#define cout fout
 #endif
+
+#define MEASURE_TIME 0
 
 typedef long long ll;
 typedef vector<int> vi;
@@ -58,16 +63,16 @@ bool isPrime(ll n) {
 	}
 	return true;
 }
-inline vector<int> sieve(int n) {
+inline vector<ll> sieve(ll n) {
 	vector<bool> isPrime(n + 1, true);
-	for (int i = 2; i * i <= n; i++) {
+	for (ll i = 2; i * i <= n; i++) {
 		if (isPrime[i])
 			for (int j = 2 * i; j <= n; j += i) {
 				isPrime[j] = false;
 			}
 	}
-	vector<int> primes;
-	for (int i = 2; i <= n; i++)
+	vector<ll> primes;
+	for (ll i = 2; i <= n; i++)
 		if (isPrime[i]) primes.push_back(i);
 	return primes;
 }
@@ -105,10 +110,10 @@ inline vector<ll> unsorted_factors(ll n) {
 	return F;
 }
 
-void shift_right(vi& A, int x) {
+void shift_right(vll& A, int x) {
 	int n = A.size();
 	x %= n;
-	vi B(n);
+	vll B(n);
 	for (int i = 0; i < n; i++)
 		B[(i + x) % n] = A[i];
 	A = B;
@@ -131,17 +136,17 @@ int cnt_dig(int n) {
 	return cnt;
 }
 vi digits(ll n) {
-	vi A;
+	vi Sol;
 	while (n) {
-		A.push_back(n % 10);
+		Sol.push_back(n % 10);
 		n /= 10;
 	}
-	return A;
+	return Sol;
 }
-string binary(int n) {
+string binary(ll n) {
 	string bin;
 	while (n) {
-		bin += (n % 2 ? '1' : '0');
+		bin += (n % 2LL ? '1' : '0');
 		n /= 2;
 	}
 	reverse(bin.begin(), bin.end());
@@ -151,6 +156,22 @@ bool isPalindrome(string& s) {
 	for (int i = 0, j = s.size() - 1; i < j; i++, j--)
 		if (s[i] != s[j]) return 0;
 	return 1;
+}
+void trim(string&s){
+	int start = 0, end = s.size()-1;
+	while(s[start] == ' ' && start < s.size()) start++;
+	while(s[end] == ' ' && end >= 0) end--;
+	s = s.substr(start, end-start+1);
+}
+void hashSort(vll& A){
+	map<ll, ll> F;
+	for(auto a : A) F[a]++;
+	ll i = 0;
+	for(auto it : F){
+		while(it.second--){
+			A[i++] = it.first;
+		}
+	}
 }
 
 #define MAXNODES 100009
@@ -232,16 +253,25 @@ public:
 	}
 };
 
+
+
+
 #define EXTERNAL_OUT 0
 #if EXTERNAL_OUT 
 ofstream fout("output.txt");
 #define cout fout
 #endif
 
-
 #define MAX 100009
+const ll MOD = 1e9 + 7;
+vll A;
+
+ll a, b;
+bool can(ll n){
+	return 0;
+}
 void init(){
-	
+
 }
 void solve(){
 	
@@ -250,9 +280,17 @@ void solve(){
 int main()
 {
 	FAST;
-	init();
+	//init();
 	int _t_ = 1; //cin >> _t_;
+#if MEASURE_TIME
+	auto start = high_resolution_clock::now();
+#endif
 	while (_t_--) solve();
+#if MEASURE_TIME
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	cout << duration.count() << endl;
+#endif
 
 #if EXTERNAL_OUT || EXTERNAL_FILES
 	fout.close();
