@@ -16,7 +16,6 @@
 #include <fstream>
 #include <iomanip>
 #include <cstring>
-#include <conio.h>
 #include <chrono>
 using namespace std;
 using namespace std::chrono;
@@ -27,8 +26,10 @@ using namespace std::chrono;
 #define loop(n) for(int i = 0; i < n; i++)
 #define forn(itr, stt, end) for(int itr = stt; itr < end; i++)
 #define all(a) a.begin(), a.end()
-#define YN cout << (can ? "Yes" : "No") << '\n'
+#define YN cout << (cn ? "Yes" : "No") << '\n'
+#define INF 1000000009
 const double PI = acos(-1);
+
 
 #define EXTERNAL_FILES 0
 #if EXTERNAL_FILES
@@ -44,7 +45,9 @@ typedef long long ll;
 typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef pair<int, int> ii;
+typedef pair<ll, ll> pll;
 typedef vector<ii> vii;
+typedef vector<pll> vpll;
 typedef priority_queue<int, vi, greater<int>> minheap;
 
 
@@ -163,6 +166,7 @@ void trim(string&s){
 	while(s[end] == ' ' && end >= 0) end--;
 	s = s.substr(start, end-start+1);
 }
+
 void hashSort(vll& A){
 	map<ll, ll> F;
 	for(auto a : A) F[a]++;
@@ -175,7 +179,7 @@ void hashSort(vll& A){
 }
 
 #define MAXNODES 100009
-vi bfs(const vector<vi>& G, int start) {
+int bfs(const vector<vi>& G, int start) {
 	int distance = 0, maxDist = 0;
 	queue<int> q;
 	vector<bool> visited(200000, false);
@@ -191,9 +195,10 @@ vi bfs(const vector<vi>& G, int start) {
 			maxDist = max(maxDist, dist[i]);
 		}
 	}
-	return dist;
-	//return maxDist;
+	// return dist;
+	return maxDist;
 }
+
 class DSU{
 private:
 	int parent[MAXNODES];
@@ -253,7 +258,24 @@ public:
 	}
 };
 
-
+// 1-indexed
+template <class T>
+class fenwick {
+private:
+	vector<T> tree;
+	int n;
+public:
+	fenwick(int n) : n(n) { tree.assign(n + 1, 0); }
+	T query(int l, int r) { return query(r) - query(l - 1); }
+	T query(int r) {
+		T s = 0;
+		while (r > 0) s += tree[r], r -= (r & (-r));
+		return s;
+	}
+	void update(int i, T v) {
+		while (i <= n) tree[i] += v, i += (i & (-i));
+	}
+};
 
 
 #define EXTERNAL_OUT 0
@@ -262,14 +284,15 @@ ofstream fout("output.txt");
 #define cout fout
 #endif
 
-#define MAX 100009
-const ll MOD = 1e9 + 7;
-vll A;
+#define MAX 1000009
+const ll MOD = 998244353;//1e9 + 7;
 
-ll a, b;
-bool can(ll n){
-	return 0;
-}
+// ll n, l, r;
+// bool can(ll k){
+// 	return l <= k && k <= r;
+// }
+
+
 void init(){
 
 }
@@ -280,7 +303,7 @@ void solve(){
 int main()
 {
 	FAST;
-	//init();
+	// init();
 	int _t_ = 1; //cin >> _t_;
 #if MEASURE_TIME
 	auto start = high_resolution_clock::now();
