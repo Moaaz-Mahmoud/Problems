@@ -1,0 +1,25 @@
+// you can use includes, for example:
+#include <stack>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A, vector<int> &B) {
+    int n = A.size(), ans = 0;
+    stack<int> s;
+    int i = 0;
+    for(; i < n; i++)
+        if(B[i] == 0) ans++; else break;
+    for(; i < n; i++){
+        if(B[i] == 1){
+            s.push(A[i]);
+        }
+        else{
+            while(!s.empty() && A[i] > s.top()){
+                s.pop();
+            }
+            if(s.empty()) ans++;
+        }
+    }
+    return ans + s.size();
+}
