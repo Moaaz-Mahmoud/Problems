@@ -1,32 +1,35 @@
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <cstdlib>
-#include <cmath>
-#include <vector>
-#include <list>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <set>
-#include <unordered_set>
-#include <map>
-#include <unordered_map>
-#include <algorithm>
-#include <fstream>
-#include <iomanip>
-#include <cstring>
-#include <chrono>
+#include <bits/stdc++.h>
+// #include <iostream>
+// #include <string>
+// #include <sstream>
+// #include <cstdlib>
+// #include <cmath>
+// #include <vector>
+// #include <list>
+// #include <stack>
+// #include <queue>
+// #include <deque>
+// #include <set>
+// #include <unordered_set>
+// #include <map>
+// #include <unordered_map>
+// #include <algorithm>
+// #include <fstream>
+// #include <iomanip>
+// #include <cstring>
+// #include <chrono>
 using namespace std;
 using namespace std::chrono;
+
 
 #define _CRT_SECURE_NO_WARNINGS
 #define FAST ios::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 #define NEWLINE cout << '\n'
 #define loop(n) for(int i = 0; i < n; i++)
-#define forn(itr, stt, end) for(int itr = stt; itr < end; i++)
-#define all(a) a.begin(), a.end()
-#define YN cout << (cn ? "Yes" : "No") << '\n'
+#define forn(itr, stt, end) for(int itr = stt; itr < end; itr++)
+#define READ_ARR(A) forn(meowmeow, 0, A.size()) cin >> A[meowmeow];
+#define all(A) A.begin(), A.end()
+#define YN cout << (cn ? "YES" : "NO") << '\n'
 #define INF 1000000009
 const double PI = acos(-1);
 
@@ -39,7 +42,9 @@ ifstream fin("hello.in");
 //#define cout fout
 #endif
 
+
 #define MEASURE_TIME 0
+
 
 typedef long long ll;
 typedef vector<int> vi;
@@ -146,6 +151,17 @@ vi digits(ll n) {
 	}
 	return Sol;
 }
+ll digsum(ll n){
+	ll sum = 0;
+	while(n){
+		sum += n%10;
+		n /= 10;
+	}
+	return sum;
+}
+ll max3(ll a, ll b, ll c){
+	return max(max(a, b), c);
+}
 string binary(ll n) {
 	string bin;
 	while (n) {
@@ -166,7 +182,6 @@ void trim(string&s){
 	while(s[end] == ' ' && end >= 0) end--;
 	s = s.substr(start, end-start+1);
 }
-
 void hashSort(vll& A){
 	map<ll, ll> F;
 	for(auto a : A) F[a]++;
@@ -177,6 +192,7 @@ void hashSort(vll& A){
 		}
 	}
 }
+
 
 #define MAXNODES 100009
 int bfs(const vector<vi>& G, int start) {
@@ -198,6 +214,7 @@ int bfs(const vector<vi>& G, int start) {
 	// return dist;
 	return maxDist;
 }
+
 
 class DSU{
 private:
@@ -258,7 +275,7 @@ public:
 	}
 };
 
-// 1-indexed
+
 template <class T>
 class fenwick {
 private:
@@ -278,37 +295,44 @@ public:
 };
 
 
+#define MAX 1000009
+const ll MOD = 998244353;//1e9 + 7;
+
+
 #define EXTERNAL_OUT 0
 #if EXTERNAL_OUT 
 ofstream fout("output.txt");
 #define cout fout
 #endif
 
-#define MAX 1000009
-const ll MOD = 998244353;//1e9 + 7;
-
-// ll n, l, r;
-// bool can(ll k){
-// 	return l <= k && k <= r;
-// }
-
-
-void init(){
-
-}
-void solve(){
+void init() {
 	
 }
+
+// ll n, m, a, b, x, y;
+
+bool can(string& s, int k){
+	
+	return 1;
+}
+
+void solve(){
+	ll n; cin >> n;
+
+	NEWLINE; //cout.flush();
+}
+
 
 int main()
 {
 	FAST;
-	// init();
-	int _t_ = 1; //cin >> _t_;
+	init();
+	int _t_ = 1; cin >> _t_;
 #if MEASURE_TIME
 	auto start = high_resolution_clock::now();
 #endif
-	while (_t_--) solve();
+	while (_t_--) 
+		solve();
 #if MEASURE_TIME
 	auto stop = high_resolution_clock::now();
 	auto duration = duration_cast<microseconds>(stop - start);
@@ -317,6 +341,7 @@ int main()
 
 #if EXTERNAL_OUT || EXTERNAL_FILES
 	fout.close();
-	system("output.txt");
+	// system("output.txt");
 #endif
+	return 0;
 }
